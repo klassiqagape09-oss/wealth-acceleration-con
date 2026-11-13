@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wealth Acceleration Conference | Guest Verification</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <!-- SheetJS for reading Excel (.xlsx, .xls, .csv) directly in the browser -->
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+  <style>
+    :root {
+      --bg-obsidian: #080605;
+      --bg-card: rgba(18, 14, 11, 0.88);
+      --gold-bright: #ffd700;
+      --gold-mid: #f0b90b;
+      --gold-deep: #b8860b;
+      --amber-glow: rgba(245, 158, 11, 0.28);
+      --navy-badge: #061838;
+      --navy-border: #1e40af;
+      --red-pill: #dc2626;
+      --text-white: #ffffff;
+      --text-muted: #cbbba0;
+      --border-gold: rgba(255, 215, 0, 0.28);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: var(--bg-obsidian);
+      color: var(--text-white);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 28px 16px 64px;
+    }
+
+    /* Ambient Warm Radial Lighting matching the flyer */
+    body::before {
+      content: "";
+      position: fixed;
+      top: -15%;
+      left: -10%;
+      width: 65vw;
+      height: 65vw;
+      background: radial-gradient(circle, rgba(255, 140, 0, 0.32) 0%, rgba(180, 83, 9, 0.12) 45%, transparent 72%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      bottom: -10%;
+      right: -10%;
+      width: 60vw;
+      height: 60vw;
+      background: radial-gradient(circle, rgba(245, 180, 0, 0.18) 0%, rgba(120, 53, 15, 0.08) 50%, transparent 75%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Subtle Geometric Background Lines */
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(135deg, rgba(255, 215, 0, 0.03) 1px, transparent 1px),
+        linear-gradient(45deg, rgba(255, 215, 0, 0.03) 1px, transparent 1px);
+      background-size: 64px 64px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 780px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Brand Header */
+    .brand-header {
+      text-align: center;
+      margin-bottom: 22px;
+    }
+
+    .brand-logo-row {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+
+    .brand-icon {
+      width: 34px;
+      height: 34px;
+    }
+
+    .brand-name {
+      text-align: left;
+      font-weight: 800;
+      font-size: 0.95rem;
+      line-height: 1.05;
+      letter-spacing: 0.02em;
+    }
+
+    .brand-tagline {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      color: var(--gold-bright);
+      text-transform: uppercase;
+    }
+
+    /* Flyer Emblem Hero Card */
+    .hero-emblem {
+      width: 100%;
+      background: radial-gradient(circle at 50% 25%, #0c2756 0%, #05132e 65%, #030b1c 100%);
+      border: 2px solid rgba(255, 215, 0, 0.35);
+      border-radius: 24px;
+      padding: 32px 24px 28px;
+      text-align: center;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.75), 0 0 40px rgba(255, 165, 0, 0.14);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    .hero-emblem::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 15%;
+      right: 15%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold-bright), transparent);
+    }
+
+    .arc-subtitle {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.28em;
+      color: #dbeafe;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      opacity: 0.9;
+    }
+
+    .title-wealth {
+      font-size: clamp(2.6rem, 7vw, 4.2rem);
+      font-weight: 900;
+      line-height: 0.95;
+      background: linear-gradient(180deg, #fff176 0%, #ffd700 50%, #e09f00 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.55));
+      letter-spacing: -0.02em;
+    }
+
+    .title-sub {
+      font-size: clamp(1.45rem, 4.2vw, 2.35rem);
+      font-weight: 800;
+      line-height: 1.05;
+      color: #ffffff;
+      letter-spacing: -0.01em;
+      margin-top: 2px;
+    }
+
+    .theme-strip {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 16px;
+      padding: 8px 18px;
+      border-top: 1px solid rgba(255, 255, 255, 0.22);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+    }
+
+    .theme-main {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .theme-tag {
+      background: var(--red-pill);
+      color: #fff;
+      font-size: 0.62rem;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .theme-desc {
+      font-size: 0.72rem;
+      color: #fde68a;
+      margin-top: 3px;
+      font-weight: 500;
+    }
+
+    /* Search & Verification Section */
+    .search-card {
+      width: 100%;
+      background: var(--bg-card);
+      backdrop-filter: blur(16px);
+      border: 1.5px solid var(--border-gold);
+      border-radius: 22px;
+      padding: 28px 24px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65);
+      margin-bottom: 24px;
+    }
+
+    .search-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .search-header h2 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--gold-bright);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .search-header p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    .search-input-wrap {
+      position: relative;
+      width: 100%;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 20px;
+      color: var(--gold-bright);
+      pointer-events: none;
+    }
+
+    .search-input {
+      width: 100%;
+      background: rgba(10, 8, 6, 0.92);
+      border: 2px solid rgba(255, 215, 0, 0.45);
+      border-radius: 14px;
+      padding: 16px 46px 16px 50px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #ffffff;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .search-input::placeholder {
+      color: rgba(203, 187, 160, 0.55);
+      font-weight: 500;
+    }
+
+    .search-input:focus {
+      border-color: var(--gold-bright);
+      box-shadow: 0 0 0 4px rgba(255, 215, 0, 0.16);
+    }
+
+    .clear-btn {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.12);
+      border: none;
+      color: #fff;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    .clear-btn:hover {
+      background: rgba(255, 215, 0, 0.3);
+    }
+
+    /* Status Pill */
+    .db-status {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 12px;
+      font-size: 0.76rem;
+      color: var(--text-muted);
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 8px #22c55e;
+    }
+
+    .status-dot.loading {
+      background: #f59e0b;
+      box-shadow: 0 0 8px #f59e0b;
+    }
+
+    .status-dot.error {
+      background: #ef4444;
+      box-shadow: 0 0 8px #ef4444;
+    }
+
+    /* Results Container */
+    .results-area {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .guest-card {
+      background: linear-gradient(135deg, rgba(16, 44, 28, 0.78) 0%, rgba(12, 22, 16, 0.92) 100%);
+      border: 1.5px solid #22c55e;
+      border-radius: 16px;
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      animation: fadeSlide 0.22s ease-out;
+    }
+
+    @keyframes fadeSlide {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .guest-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .verified-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #4ade80;
+    }
+
+    .guest-name {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .guest-phone {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #d1fae5;
+      letter-spacing: 0.03em;
+    }
+
+    .guest-tier {
+      padding: 6px 14px;
+      border-radius: 10px;
+      font-size: 0.76rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+      background: rgba(255, 215, 0, 0.16);
+      border: 1px solid var(--gold-bright);
+      color: var(--gold-bright);
+    }
+
+    .not-found-card {
+      background: rgba(45, 15, 15, 0.65);
+      border: 1.5px solid rgba(239, 68, 68, 0.55);
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+      animation: fadeSlide 0.22s ease-out;
+    }
+
+    .not-found-card h3 {
+      font-size: 1rem;
+      font-weight: 800;
+      color: #fca5a5;
+      margin-bottom: 6px;
+    }
+
+    .not-found-card p {
+      font-size: 0.84rem;
+      color: #e5e7eb;
+      line-height: 1.5;
+    }
+
+    .not-found-card strong {
+      color: var(--gold-bright);
+    }
+
+    /* Event Info Grid (Matches bottom half of flyer) */
+    .info-grid {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .info-box {
+      background: rgba(14, 11, 9, 0.85);
+      border: 1px solid var(--border-gold);
+      border-radius: 16px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .date-pill {
+      display: inline-block;
+      background: var(--red-pill);
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 4px 12px;
+      border-radius: 6px;
+      width: fit-content;
+      margin-bottom: 8px;
+    }
+
+    .date-text {
+      font-size: 1.35rem;
+      font-weight: 800;
+      line-height: 1.15;
+    }
+
+    .payment-label {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .account-num {
+      font-size: 1.45rem;
+      font-weight: 900;
+      letter-spacing: 0.03em;
+      color: #ffffff;
+    }
+
+    .bank-name {
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: var(--gold-bright);
+    }
+
+    .account-holder {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #e5e7eb;
+      margin-bottom: 10px;
+    }
+
+    .enquiries-box {
+      border-top: 1px solid rgba(255, 255, 255, 0.14);
+      padding-top: 8px;
+    }
+
+    .enquiries-label {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+    }
+
+    .enquiries-phone {
+      font-size: 1.12rem;
+      font-weight: 800;
+      color: #ffffff;
+      text-decoration: none;
+    }
+
+    /* Ticket Tiers Row (Matches Regular / Gold / Diamond cards on flyer) */
+    .tickets-section {
+      width: 100%;
+      margin-bottom: 26px;
+    }
+
+    .tickets-badge-wrap {
+      text-align: center;
+      margin-bottom: -10px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .tickets-badge {
+      background: var(--red-pill);
+      color: #ffffff;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 4px 16px;
+      border-radius: 6px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .tickets-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .ticket-card {
+      border-radius: 14px;
+      padding: 18px 12px 14px;
+      text-align: center;
+    }
+
+    .ticket-regular {
+      background: rgba(12, 10, 8, 0.9);
+      border: 1.5px solid var(--gold-bright);
+      color: #ffffff;
+    }
+
+    .ticket-regular .t-name,
+    .ticket-regular .t-date {
+      color: var(--gold-bright);
+    }
+
+    .ticket-gold {
+      background: linear-gradient(135deg, #ffe55c 0%, #f5b800 50%, #d49400 100%);
+      border: 1.5px solid #fff3b0;
+      color: #111111;
+    }
+
+    .ticket-diamond {
+      background: linear-gradient(135deg, #0077b6 0%, #023e8a 55%, #03045e 100%);
+      border: 1.5px solid #38bdf8;
+      color: #ffffff;
+    }
+
+    .ticket-diamond .t-name,
+    .ticket-diamond .t-date {
+      color: var(--gold-bright);
+    }
+
+    .t-name {
+      font-size: 0.82rem;
+      font-weight: 800;
+      margin-bottom: 2px;
+    }
+
+    .t-price {
+      font-size: 1.65rem;
+      font-weight: 900;
+      line-height: 1.1;
+    }
+
+    .t-date {
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-top: 4px;
+    }
+
+    /* Footer */
+    .footer-motto {
+      text-align: center;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.36em;
+      color: #e5e7eb;
+      text-transform: uppercase;
+      margin-top: 6px;
+    }
+
+    /* Subtle Organizer Setup Bar (Optional local file preview / template download) */
+    .organizer-bar {
+      margin-top: 36px;
+      width: 100%;
+      border-top: 1px dashed rgba(255, 215, 0, 0.22);
+      padding-top: 14px;
+      text-align: center;
+    }
+
+    .organizer-toggle {
+      background: transparent;
+      border: none;
+      color: rgba(203, 187, 160, 0.55);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.74rem;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    .organizer-toggle:hover {
+      color: var(--gold-bright);
+    }
+
+    .organizer-panel {
+      display: none;
+      margin-top: 12px;
+      background: rgba(15, 12, 10, 0.92);
+      border: 1px solid rgba(255, 215, 0, 0.25);
+      border-radius: 12px;
+      padding: 14px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .organizer-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .btn-mini {
+      background: rgba(255, 215, 0, 0.14);
+      border: 1px solid var(--gold-bright);
+      color: var(--gold-bright);
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-mini:hover {
+      background: var(--gold-bright);
+      color: #000;
+    }
+
+    @media (max-width: 640px) {
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+      .tickets-grid {
+        grid-template-columns: 1fr;
+      }
+      .guest-card {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .footer-motto {
+        letter-spacing: 0.18em;
+        font-size: 0.7rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-grid"></div>
+
+  <main class="container">
+    <!-- Crest Consult Limited Brand Header -->
+    <header class="brand-header">
+      <div class="brand-logo-row">
+        <svg class="brand-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 34C8 21.8497 17.8497 12 30 12H36V18H30C21.1634 18 14 25.1634 14 34H8Z" fill="#FFD700"/>
+          <rect x="19" y="25" width="4" height="13" rx="1" fill="#FFD700"/>
+          <rect x="26" y="21" width="4" height="17" rx="1" fill="#FFFFFF"/>
+          <rect x="33" y="27" width="4" height="11" rx="1" fill="#FFD700"/>
+        </svg>
+        <div class="brand-name">
+          Crest<br/>Consult<br/>Limited
+        </div>
+      </div>
+      <div class="brand-tagline">Wealth | Strategy | Growth</div>
+    </header>
+
+    <!-- Main Conference Title Emblem -->
+    <section class="hero-emblem">
+      <div class="arc-subtitle">Wealth Acceleration Conference</div>
+      <h1 class="title-wealth">Wealth</h1>
+      <div class="title-sub">Acceleration<br/>Conference</div>
+      <div class="theme-strip">
+        <div class="theme-main">
+          <span class="theme-tag">Theme</span>
+          <span>From Strategy to Success</span>
+        </div>
+        <div class="theme-desc">Proven Systems to Increase Sales, Multiply Income &amp; Build Wealth</div>
+      </div>
+    </section>
+
+    <!-- Guest Verification Search Box -->
+    <section class="search-card" aria-label="Guest List Verification">
+      <div class="search-header">
+        <h2>Verify Your Registration</h2>
+        <p>Enter your full name or phone number below to check if you are on the guest list.</p>
+      </div>
+
+      <div class="search-input-wrap">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input
+          type="text"
+          id="searchInput"
+          class="search-input"
+          placeholder="Type your name or phone number (e.g. 0806...)"
+          autocomplete="off"
+          disabled
+        />
+        <button type="button" id="clearBtn" class="clear-btn" title="Clear search">✕</button>
+      </div>
+
+      <div class="db-status" id="dbStatus">
+        <span class="status-dot loading" id="statusDot"></span>
+        <span id="statusText">Loading guest list...</span>
+      </div>
+
+      <!-- Search Results Appear Here Only When Typing -->
+      <div class="results-area" id="resultsArea"></div>
+    </section>
+
+    <!-- Event Date & Payment Info -->
+    <section class="info-grid">
+      <div class="info-box">
+        <span class="date-pill">Friday &amp; Saturday</span>
+        <div class="date-text">20th &amp; 21st<br/>November<br/>2026</div>
+      </div>
+
+      <div class="info-box">
+        <div class="payment-label">Payment Details &gt;&gt;&gt;</div>
+        <div class="account-num">131 3212 263</div>
+        <div class="bank-name">ZENITH BANK</div>
+        <div class="account-holder">Crest Consulting Ltd</div>
+        <div class="enquiries-box">
+          <div class="enquiries-label">Enquiries &amp; Registration</div>
+          <a href="tel:08066828303" class="enquiries-phone">0806 682 8303</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ticket Tiers -->
+    <section class="tickets-section">
+      <div class="tickets-badge-wrap">
+        <span class="tickets-badge">Tickets</span>
+      </div>
+      <div class="tickets-grid">
+        <div class="ticket-card ticket-regular">
+          <div class="t-name">Regular Ticket</div>
+          <div class="t-price">N50k</div>
+          <div class="t-date">20th November</div>
+        </div>
+        <div class="ticket-card ticket-gold">
+          <div class="t-name">Gold Ticket</div>
+          <div class="t-price">N150k</div>
+          <div class="t-date">21st November</div>
+        </div>
+        <div class="ticket-card ticket-diamond">
+          <div class="t-name">Diamond Ticket</div>
+          <div class="t-price">N300k</div>
+          <div class="t-date">21st November</div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer-motto">Your Wealth Journey Starts Here</footer>
+
+    <!-- Subtle Helper for Testing Excel File Locally Before Deploying to Vercel -->
+    <div class="organizer-bar">
+      <button type="button" class="organizer-toggle" id="toggleHelper">Organizer Excel Setup &amp; Local Test</button>
+      <div class="organizer-panel" id="helperPanel">
+        <p>Place your Excel file named <strong>guests.xlsx</strong> in the same root folder as this <code>index.html</code> when deploying to Vercel. Columns supported: <strong>Name</strong>, <strong>Phone</strong>, and optional <strong>Ticket</strong>.</p>
+        <div class="organizer-actions">
+          <button type="button" class="btn-mini" id="downloadTemplateBtn">Download Sample guests.xlsx</button>
+          <label class="btn-mini" style="display:inline-block;">
+            Test Local Excel File
+            <input type="file" id="localExcelInput" accept=".xlsx,.xls,.csv" style="display:none;" />
+          </label>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const EXCEL_FILE_PATH = './guests.xlsx';
+    let guestList = [];
+
+    const searchInput = document.getElementById('searchInput');
+    const clearBtn = document.getElementById('clearBtn');
+    const resultsArea = document.getElementById('resultsArea');
+    const statusDot = document.getElementById('statusDot');
+    const statusText = document.getElementById('statusText');
+
+    // Normalize phone numbers so "0806 682 8303", "+2348066828303", and "8066828303" all match cleanly
+    function normalizePhone(val) {
+      if (val === null || val === undefined) return '';
+      let digits = String(val).replace(/\D/g, '');
+      if (digits.startsWith('234') && digits.length >= 13) {
+        digits = '0' + digits.slice(3);
+      } else if (digits.length === 10 && /^[789]/.test(digits)) {
+        digits = '0' + digits;
+      }
+      return digits;
+    }
+
+    // Parse rows from any Excel sheet regardless of exact header capitalization
+    function parseWorkbook(workbook) {
+      const firstSheetName = workbook.SheetNames[0];
+      const worksheet = workbook.Sheets[firstSheetName];
+      const rawRows = XLSX.utils.sheet_to_json(worksheet, { defval: '' });
+
+      return rawRows
+        .map((row) => {
+          const keys = Object.keys(row);
+          const nameKey = keys.find((k) => /name|guest|attendee|full/i.test(k)) || keys[0];
+          const phoneKey = keys.find((k) => /phone|mobile|number|tel|contact/i.test(k)) || keys[1];
+          const ticketKey = keys.find((k) => /ticket|tier|type|category|pass/i.test(k));
+
+          const name = String(row[nameKey] ?? '').trim();
+          const rawPhone = String(row[phoneKey] ?? '').trim();
+          const ticket = ticketKey ? String(row[ticketKey] ?? '').trim() : '';
+
+          return {
+            name,
+            nameLower: name.toLowerCase(),
+            rawPhone,
+            cleanPhone: normalizePhone(rawPhone),
+            ticket
+          };
+        })
+        .filter((item) => item.name.length > 0 || item.cleanPhone.length > 0);
+    }
+
+    // Load guests.xlsx from the root directory on Vercel
+    async function loadExcelFromServer() {
+      try {
+        const response = await fetch(`${EXCEL_FILE_PATH}?v=${Date.now()}`);
+        if (!response.ok) {
+          throw new Error('guests.xlsx not found');
+        }
+        const arrayBuffer = await response.arrayBuffer();
+        const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+        guestList = parseWorkbook(workbook);
+
+        statusDot.className = 'status-dot';
+        statusText.textContent = `Guest directory active • Ready to verify`;
+        searchInput.disabled = false;
+      } catch (err) {
+        statusDot.className = 'status-dot error';
+        statusText.textContent = 'Upload guests.xlsx to root folder (or use Organizer Test below)';
+        searchInput.disabled = false;
+      }
+    }
+
+    function escapeHTML(str) {
+      return str.replace(/[&<>"']/g, (m) => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+      }[m]));
+    }
+
+    // Mask middle digits of phone numbers slightly for privacy while still confirming identity
+    function formatDisplayPhone(raw, clean) {
+      const target = clean || raw;
+      if (target.length >= 10) {
+        return `${target.slice(0, 4)} ••• ${target.slice(-4)}`;
+      }
+      return target;
+    }
+
+    function performSearch() {
+      const query = searchInput.value.trim();
+      clearBtn.style.display = query.length > 0 ? 'flex' : 'none';
+
+      // Keep list hidden until guest types a query
+      if (query.length < 2) {
+        resultsArea.innerHTML = '';
+        return;
+      }
+
+      const queryLower = query.toLowerCase();
+      const queryDigits = normalizePhone(query);
+      const isNumericSearch = /^\+?\d[\d\s-]*$/.test(query);
+
+      const matches = guestList.filter((guest) => {
+        if (isNumericSearch && queryDigits.length >= 4) {
+          return guest.cleanPhone.includes(queryDigits);
+        }
+        const nameMatch = guest.nameLower.includes(queryLower);
+        const phoneMatch = queryDigits.length >= 4 && guest.cleanPhone.includes(queryDigits);
+        return nameMatch || phoneMatch;
+      });
+
+      if (matches.length > 0) {
+        resultsArea.innerHTML = matches
+          .slice(0, 8)
+          .map((guest) => {
+            const tierBadge = guest.ticket
+              ? `<span class="guest-tier">${escapeHTML(guest.ticket)}</span>`
+              : `<span class="guest-tier">Confirmed Guest</span>`;
+            const phoneDisplay = guest.cleanPhone || guest.rawPhone
+              ? `<div class="guest-phone">Phone: ${escapeHTML(formatDisplayPhone(guest.rawPhone, guest.cleanPhone))}</div>`
+              : '';
+
+            return `
+              <div class="guest-card">
+                <div class="guest-info">
+                  <div class="verified-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    Included on Guest List
+                  </div>
+                  <div class="guest-name">${escapeHTML(guest.name)}</div>
+                  ${phoneDisplay}
+                </div>
+                ${tierBadge}
+              </div>
+            `;
+          })
+          .join('');
+      } else {
+        resultsArea.innerHTML = `
+          <div class="not-found-card">
+            <h3>No Matching Record Found</h3>
+            <p>We couldn't find "<strong>${escapeHTML(query)}</strong>" on the current guest list. Check your spelling/phone digits or contact registration on <strong>0806 682 8303</strong>.</p>
+          </div>
+        `;
+      }
+    }
+
+    searchInput.addEventListener('input', performSearch);
+
+    clearBtn.addEventListener('click', () => {
+      searchInput.value = '';
+      resultsArea.innerHTML = '';
+      clearBtn.style.display = 'none';
+      searchInput.focus();
+    });
+
+    // Organizer helper controls
+    document.getElementById('toggleHelper').addEventListener('click', () => {
+      const panel = document.getElementById('helperPanel');
+      panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+    });
+
+    document.getElementById('localExcelInput').addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (evt) => {
+        const workbook = XLSX.read(evt.target.result, { type: 'array' });
+        guestList = parseWorkbook(workbook);
+        statusDot.className = 'status-dot';
+        statusText.textContent = `Loaded ${guestList.length} guests from ${file.name}`;
+        performSearch();
+      };
+      reader.readAsArrayBuffer(file);
+    });
+
+    document.getElementById('downloadTemplateBtn').addEventListener('click', () => {
+      const sampleData = [
+        { Name: 'Chinedu Okafor', Phone: '08031234567', Ticket: 'Gold Ticket' },
+        { Name: 'Amina Bello', Phone: '08066828303', Ticket: 'Diamond Ticket' },
+        { Name: 'Tunde Adeyemi', Phone: '07019876543', Ticket: 'Regular Ticket' }
+      ];
+      const ws = XLSX.utils.json_to_sheet(sampleData);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Guests');
+      XLSX.writeFile(wb, 'guests.xlsx');
+    });
+
+    loadExcelFromServer();
+  </script>
+</body>
+</html>
